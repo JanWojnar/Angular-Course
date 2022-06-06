@@ -1,0 +1,12 @@
+<hr>
+<label>Username: {{ displayUsername() }}</label>
+<input
+  type="text"
+  class="form-control"
+  [(ngModel)]="username"
+>
+<button
+  class="btn-primary"
+  [disabled]="isUsernameEmpty()"
+  (click)="onClear()"
+>Clear username</button>

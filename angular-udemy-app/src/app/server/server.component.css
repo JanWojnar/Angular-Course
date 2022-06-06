@@ -1,0 +1,12 @@
+.server-style {
+  margin: 5px;
+  display: flex;
+  color: white;
+  height: 50px;
+  border-style: solid;
+  border-color: lightgrey;
+  border-width: 5px;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+}
