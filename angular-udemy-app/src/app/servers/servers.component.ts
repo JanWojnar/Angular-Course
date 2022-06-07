@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ServerBarComponent } from "../server/server-bar.component";
+import { Server } from "../useful-objects/server";
 
 @Component({
   selector: 'app-servers',
@@ -11,6 +13,10 @@ export class ServersComponent implements OnInit {
   serverCreated = false;
   serverCreationStatus = '';
   serverName = 'TestServer';
+  servers: Server[] = [
+    new Server('Testserver1',0),
+    new Server('Testserver2', 1)
+  ];
 
   constructor() {
     setTimeout(() => {
@@ -23,6 +29,7 @@ export class ServersComponent implements OnInit {
   onCreateServer() {
     this.serverCreationStatus = 'Server was created! Name is: ' + this.serverName;
     this.serverCreated = true;
+    this.servers.push(new Server(this.serverName, this.servers.length));
   }
 
   getServerCreationStatus(){
