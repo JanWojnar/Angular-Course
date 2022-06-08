@@ -35,6 +35,16 @@ export class ServersComponent implements OnInit {
   getServerCreationStatus(){
     return this.serverCreationStatus;
   }
+
+  async removeServer(server: Server){
+    await HttpServiceComponent.remove(server);
+    const index = this.servers.findIndex((serv) => serv.id===server.id);
+    this.servers.splice(index,1);
+  }
+
+
+
+
   // onUpdateServerName(event: Event) {
   //   console.log(event);
   //   this.serverName = (<HTMLInputElement>event.target).value;

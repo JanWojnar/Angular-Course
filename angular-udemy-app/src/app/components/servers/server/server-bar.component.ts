@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {Server} from "../../../../utilities/classes/server";
 import {HttpServiceComponent} from "../../../../utilities/services/http-service.component";
 
@@ -9,12 +9,13 @@ import {HttpServiceComponent} from "../../../../utilities/services/http-service.
 })
 export class ServerBarComponent {
 
-  @Input() server: Server = new Server('asd',1);
+  @Input() server: Server;
+  @Output() removeServerEvent = new EventEmitter<Server>();
 
   constructor() {
   }
 
-  async deleteThis(){
-    await HttpServiceComponent.remove(this.server);
+  removeBar() {
+    this.removeServerEvent.emit(this.server);
   }
 }
