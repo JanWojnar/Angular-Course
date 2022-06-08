@@ -1,6 +1,6 @@
 export class Server {
 
-  serverID: number = -1;
+  id: number = -1;
   serverStatus: string = '';
   serverName: string = '';
 
@@ -10,7 +10,7 @@ export class Server {
       this.serverName = name;
     }
     if (typeof id !== 'undefined') {
-      this.serverID = id;
+      this.id = id;
     }
   }
 }

@@ -3,6 +3,10 @@
   class="server-style"
   [ngClass]="{server__online: server.serverStatus === 'online', server__offline: server.serverStatus === 'offline'}"
 >
-  {{ 'Server' }} named: {{ server.serverName }} with id: {{ server.serverID }} is {{ server.serverStatus }}
+  {{ 'Server' }} named: {{ server.serverName }} with id: {{ server.id }} is {{ server.serverStatus }}
+  <button
+    class="btn-primary"
+    (click)="deleteThis()"
+  >Delete</button>
 </p>
 

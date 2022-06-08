@@ -11,6 +11,35 @@
       "name": "Real Madrid",
       "coach": "Zinedine Zidane",
       "description": "The worst football team in the world!"
+    },
+    {
+      "name": "jan",
+      "coach": "jakis dzik",
+      "description": "xddd",
+      "id": 11
+    },
+    {
+      "name": "dadasdasda",
+      "coach": "asdasdasd dzik",
+      "description": "xddasdasasdasdasdasdasdasdasdd",
+      "id": 12
+    }
+  ],
+  "servers": [
+    {
+      "serverStatus": "offline",
+      "serverName": "TestServer",
+      "id": 1
+    },
+    {
+      "serverStatus": "online",
+      "serverName": "TestServer",
+      "id": 2
+    },
+    {
+      "serverStatus": "offline",
+      "serverName": "TestServer",
+      "id": 3
     }
   ]
 }

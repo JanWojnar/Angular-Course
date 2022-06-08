@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ServerBarComponent } from "../server/server-bar.component";
-import { Server } from "../useful-objects/server";
+import { ServerBarComponent } from "./server/server-bar.component";
+import { Server } from "../../../utilities/classes/server";
+import { HttpServiceComponent } from "../../../utilities/services/http-service.component";
 
 @Component({
   selector: 'app-servers',
@@ -13,23 +14,22 @@ export class ServersComponent implements OnInit {
   serverCreated = false;
   serverCreationStatus = '';
   serverName = 'TestServer';
-  servers: Server[] = [
-    new Server('Testserver1',0),
-    new Server('Testserver2', 1)
-  ];
+  servers: Server[] = [];
 
   constructor() {
     setTimeout(() => {
       this.allowNewServer = true;
-    },2000)
+    }, 2000)
   }
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.servers = await HttpServiceComponent.getTableOfServers();
   }
 
-  onCreateServer() {
+  async onCreateServer() {
     this.serverCreationStatus = 'Server was created! Name is: ' + this.serverName;
     this.serverCreated = true;
-    this.servers.push(new Server(this.serverName, this.servers.length));
+    await HttpServiceComponent.post(new Server(this.serverName));
+    this.servers = await HttpServiceComponent.getTableOfServers();
   }
 
   getServerCreationStatus(){
