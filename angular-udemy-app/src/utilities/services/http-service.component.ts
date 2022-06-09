@@ -1,7 +1,11 @@
 import {Server} from "../classes/server";
+import {Injectable} from "@angular/core";
 
+@Injectable({
+  providedIn: 'any'
+})
 export class HttpServiceComponent {
-  static async post(server: Server){
+  async post(server: Server){
     await fetch('http://localhost:4200/api/servers', {
       method: 'POST',
       headers: {
@@ -13,7 +17,19 @@ export class HttpServiceComponent {
       })
     })
   }
-  static async remove(server: Server){
+  async update(server: Server){
+    await fetch(`http://localhost:4200/api/servers/${server.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        serverStatus: server.serverStatus,
+        serverName: server.serverName
+      })
+    })
+  }
+  async remove(server: Server){
     await fetch(`http://localhost:4200/api/servers/${server.id}`, {
       method: 'DELETE',
       headers: {
@@ -21,7 +37,7 @@ export class HttpServiceComponent {
       }
     })
   }
-  static async getTableOfServers(){
+  async getTableOfServers(){
     let jsonResponse = await fetch('http://localhost:4200/api/servers', {
       method: 'GET',
       headers: {

@@ -1,11 +1,20 @@
 <!--<p class="server-style" [ngStyle]="{backgroundColor: getColor()}">{{ 'Server' }} with id: {{ serverID }} is {{serverStatus}}</p>-->
-<p
-  class="server-style"
+<div
   [ngClass]="{server__online: server.serverStatus === 'online', server__offline: server.serverStatus === 'offline'}"
 >
-  {{ 'Server' }} named: {{ server.serverName }} with id: {{ server.id }} is {{ server.serverStatus }}
-  <button
-    (click)="removeBar()"
-  >Delete</button>
-</p>
+  <div style="margin-left: auto"></div>
+  <div style="margin: auto">{{ 'Server' }} named: {{ server.serverName }} with id: {{ server.id }} is {{ server.serverStatus }}</div>
+  <div style="margin-right: 15px">
+    <button
+      style="color: black; margin: 5px"
+      (click)="removeBar()"
+    >Delete
+    </button>
+    <button
+      style="color: black; margin: 5px"
+      (click)="changeStatus()"
+    >Change status
+    </button>
+  </div>
+</div>
 

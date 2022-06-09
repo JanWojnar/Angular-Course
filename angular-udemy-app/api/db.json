@@ -25,5 +25,26 @@
       "id": 12
     }
   ],
-  "servers": []
+  "servers": [
+    {
+      "serverStatus": "online",
+      "serverName": "TestServer",
+      "id": 1
+    },
+    {
+      "serverStatus": "online",
+      "serverName": "TestServer",
+      "id": 3
+    },
+    {
+      "serverStatus": "offline",
+      "serverName": "TestServer",
+      "id": 4
+    },
+    {
+      "serverStatus": "online",
+      "serverName": "TestServer",
+      "id": 5
+    }
+  ]
 }

@@ -11,6 +11,7 @@ export class ServerBarComponent {
 
   @Input() server: Server;
   @Output() removeServerEvent = new EventEmitter<Server>();
+  @Output() changeStatusEvent = new EventEmitter<Server>();
 
   constructor() {
   }
@@ -18,4 +19,8 @@ export class ServerBarComponent {
   removeBar() {
     this.removeServerEvent.emit(this.server);
   }
+  changeStatus(){
+    this.changeStatusEvent.emit(this.server);
+  }
+
 }

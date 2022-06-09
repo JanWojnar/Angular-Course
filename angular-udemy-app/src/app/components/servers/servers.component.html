@@ -22,4 +22,9 @@
 <!--  <p>No server was created!</p>-->
 <!--</ng-template>-->
 <p *ngIf="serverCreated"> {{ getServerCreationStatus() }}</p>
-<app-server *ngFor="let server of servers" [server]="server" (removeServerEvent)="removeServer($event)"></app-server>
+<app-server
+  *ngFor="let server of servers"
+  [server]="server"
+  (removeServerEvent)="removeServer($event)"
+  (changeStatusEvent)="changeStatus($event)">
+</app-server>
