@@ -7,6 +7,8 @@
       <excludeFolder url="file://$MODULE_DIR$/angularUdemy/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/angular-udemy-app/dist" />
       <excludeFolder url="file://$MODULE_DIR$/angular-udemy-app/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/project-app/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/project-app/tmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
