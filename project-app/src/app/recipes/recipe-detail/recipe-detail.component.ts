@@ -1,7 +1,7 @@
 import {Component, Injectable, OnInit} from '@angular/core';
 import {Recipe} from "../recipe-list/recipe.model";
 import {ShoppingListService} from "../../shopping-list/shopping-list.service";
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../recipe.service';
 
 @Injectable()
@@ -18,7 +18,8 @@ export class RecipeDetailComponent implements OnInit {
   constructor(
     private shoppingListService: ShoppingListService, 
     private route: ActivatedRoute,
-    private recipeService: RecipeService) {
+    private recipeService: RecipeService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -32,6 +33,10 @@ export class RecipeDetailComponent implements OnInit {
 
   onMoveClick(){
     this.shoppingListService.ingredientsFromRecipePublisher.emit(this.recipeDetail.ingredients.slice());
+  }
+
+  onEdit(){
+    this.router.navigate(['edit'], {relativeTo:this.route})
   }
 
 }
