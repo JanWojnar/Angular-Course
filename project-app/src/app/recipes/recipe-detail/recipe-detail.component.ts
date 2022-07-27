@@ -16,7 +16,7 @@ export class RecipeDetailComponent implements OnInit {
   id!: number;
 
   constructor(
-    private shoppingListService: ShoppingListService, 
+    private shoppingListService: ShoppingListService,
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router) {
@@ -32,7 +32,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onMoveClick(){
-    this.shoppingListService.ingredientsFromRecipePublisher.emit(this.recipeDetail.ingredients.slice());
+    this.shoppingListService.addIngredients(this.recipeDetail.ingredients);
   }
 
   onEdit(){
