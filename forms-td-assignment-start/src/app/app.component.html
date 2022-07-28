@@ -1,14 +1,60 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <!-- Add a Form with the following Inputs (and Validators)
-           1) Mail address (should not be empty and should be an email address)
-           2) A Dropdown which allows the user to select from three different Subscriptions ("Basic", "Advanced", "Pro")
-              Set "Advanced" as Default
-           3) A Password field (should not be empty)
-           4) A Submit Button
+      <hr>
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            class="form-control"
+            type="email"
+            id="email"
+            name="email"
+            ngModel
+            required
+            email
+            #email="ngModel">
+        </div>
+        <p *ngIf="!email.valid">Type valid email!</p>
+        <div class="form-group">
+          <label for="subscription">Subscription type: </label>
+          <select
+            class="form-control"
+            name="subscription"
+            id="subscription"
+            #subscription="ngModel"
+            [ngModel]="defaultSubType"
+            required>
+            <option *ngFor="let sub of subTypes">{{sub}}</option>
+          </select>
+        </div>
+        <p *ngIf="!subscription.valid">Type some sub type!</p>
+        <div class="form-group">
+          <label>Password: </label>
+          <input
+            class="form-control"
+            id="password"
+            name="password"
+            type="text"
+            ngModel
+            #password="ngModel"
+            required>
+        </div>
+        <p *ngIf="!password.valid">Type password!</p>
+        <p *ngIf="f.form.touched && !f.form.valid">Fill form fields correctly</p>
+        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Submit</button>
+      </form>
+      <div class="row" *ngIf="submitted">
+        <div class="col-xs-12">
+          <h3>Your data</h3>
+          <p>Subscription: {{accData.subType}}</p>
+          <p>Mail: {{accData.email}}</p>
+          <p>Password: {{accData.password}}</p>
+        </div>
+      </div>
 
-           Display a warning message if the Form is invalid AND was touched. Display a warning message below each input if it's invalid.
+      <!-- Add a Form with the following Inputs (and Validators)
+           4) A Submit Button
 
            Upon submitting the form, you should simply print the Value of the Form to the Console.
            Optionally, display it in your template.
