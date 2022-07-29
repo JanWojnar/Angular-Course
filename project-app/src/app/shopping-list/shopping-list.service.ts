@@ -6,6 +6,7 @@ export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
   ingredientsEdited = new Subject<void>();
   startedEditing = new Subject<{i: number,ingredient: Ingredient}>();
+  buttonClicked = new Subject<void>();
 
   ingredients: Ingredient[] = [
     new Ingredient('Apples', 5),

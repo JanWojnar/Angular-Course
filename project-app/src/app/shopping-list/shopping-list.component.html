@@ -4,6 +4,7 @@
     <hr>
     <ul class="list-group">
       <a
+        [ngStyle]="{backgroundColor: selectedId==i ? 'lightblue' : 'transparent'}"
         class="list-group-item"
         style="cursor: pointer"
         *ngFor="let ingredient of ingredients; let i = index"
