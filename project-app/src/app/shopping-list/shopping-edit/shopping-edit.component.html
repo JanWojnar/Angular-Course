@@ -1,7 +1,7 @@
 <p>shopping-edit works!</p>
 <div class="row">
   <div class="col-xs-12">
-    <form>
+    <form (ngSubmit)="onAddClick(f)" #f="ngForm">
       <div class="row">
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
@@ -9,7 +9,9 @@
             type="text"
             id="name"
             class="form-control"
-            #nameInput>
+            name="name"
+            ngModel
+            required>
         </div>
         <div class="col-sm-2 form-group">
           <label for="amount">Amount</label>
@@ -17,14 +19,17 @@
             type="number"
             id="amount"
             class="form-control"
-            #amountInput>
+            name="amount"
+            ngModel
+            required
+            pattern="^[1-9]+[0-9]*$">
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button (click)="onAddClick()" class="btn btn-success form--button" type="submit">Add</button>
-          <button class="btn btn-danger form--button" type="button">Delete</button>
-          <button class="btn btn-primary form--button" type="button">Clear</button>
+          <button class="btn btn-success form--button" type="submit" [disabled]="!f.valid">{{editMode ? 'Update' : 'Add'}}</button>
+          <button class="btn btn-danger form--button" type="button" (click)="onDeleteClick()" *ngIf="editMode">Delete</button>
+          <button class="btn btn-primary form--button" type="button" (click)="onClearClick()">Clear</button>
         </div>
       </div>
     </form>
