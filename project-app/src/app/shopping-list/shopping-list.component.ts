@@ -42,7 +42,12 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   onEditItem(id: number) {
-    this.shoppingListService.startedEditing.next({i: id, ingredient: this.ingredients[id]});
-    this.selectedId=id;
+    if(this.selectedId!==id){
+      this.shoppingListService.startedEditing.next({i: id, ingredient: this.ingredients[id]});
+      this.selectedId=id;
+    } else {
+      this.selectedId=-1;
+      this.shoppingListService.buttonClicked.next();
+    }
   }
 }

@@ -1,10 +1,12 @@
 import {Recipe} from "./recipe-list/recipe.model";
 import {Injectable} from "@angular/core";
 import {Ingredient} from "../shared/ingredient.model";
+import {Subject} from "rxjs";
 
 @Injectable()
 export class RecipeService {
 
+  recipesChanged = new Subject<Recipe[]>();
 
   private recipes: Recipe[] = [
     new Recipe('A Test Recipe', 'Test description1', 'https://www.acouplecooks.com/wp-content/uploads/2021/03/' +
@@ -16,10 +18,29 @@ export class RecipeService {
   ];
 
   getRecipes() {
-    return this.recipes.slice();
+    const rec = this.recipes.slice();
+    console.log(rec);
+    return rec;
   }
 
   getRecipeById(id:number){
     return this.recipes[id];
   }
+
+  addRecipe(recipe: Recipe){
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.getRecipes());
+  }
+
+  updateRecipe(recipe: Recipe, id: number){
+    this.recipes[id] = recipe;
+    this.recipesChanged.next(this.getRecipes());
+
+  }
+
+  deleteRecipe(id: number){
+    this.recipes.splice(id,1);
+    this.recipesChanged.next(this.getRecipes());
+  }
+
 }

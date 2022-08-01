@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 
+@Injectable()
 @Component({
   selector: 'app-recipe-start',
   templateUrl: './recipe-start.component.html',

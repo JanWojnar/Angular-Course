@@ -14,6 +14,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('f') editForm!: NgForm;
 
   startedEditingSub!: Subscription;
+  endOfEditSub!: Subscription;
   editMode: boolean = false;
   selectedIngredient!: Ingredient;
   indexOfEditingItem!: number;
@@ -32,7 +33,12 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
           amount: this.selectedIngredient.amount
         })
       });
+    this.endOfEditSub = this.shoppingListService.buttonClicked
+      .subscribe(()=> {
+        this.editMode=false;
+      });
   }
+
 
   ngOnDestroy(): void {
     this.startedEditingSub.unsubscribe();
