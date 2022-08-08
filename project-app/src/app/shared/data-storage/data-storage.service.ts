@@ -1,11 +1,10 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {RecipeService} from "../../recipes/recipe.service";
 import {Recipe} from "../../recipes/recipe-list/recipe.model";
-import {exhaustMap, map, take, tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {AuthService} from "../../auth/auth.service";
 import {Subscription} from "rxjs";
-
 
 
 @Injectable({
@@ -53,10 +52,11 @@ export class DataStorageService {
     //     this.recipeService.setRecipes(recipes);
     //   })
     // );
-    return this.http.get<Recipe[]>('https://recipebook-2b443-default-rtdb.europe-west1.firebasedatabase.app/recipes.json',
-      {
-        params: new HttpParams().set('auth', <string>this.token)
-      }).pipe(
+    return this.http.get<Recipe[]>('https://recipebook-2b443-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
+      // {
+      //   params: new HttpParams().set('auth', <string>this.token)
+      // }
+    ).pipe(
       map(recipes => {
         return recipes.map(recipe => {
           return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []};

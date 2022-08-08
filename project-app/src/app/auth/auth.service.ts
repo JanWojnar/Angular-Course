@@ -21,7 +21,7 @@ export interface AuthResponseData {
 })
 export class AuthService {
 
-  user = new Subject<User>();
+  user = new BehaviorSubject<User>(null!);
 
   constructor(private http: HttpClient) {
   }
