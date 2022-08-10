@@ -50,6 +50,10 @@ export class AuthComponent implements OnInit {
     return this.authService.login(email, password);
   }
 
+  onHandleError(){
+    this.error = '';
+  }
+
   manageResponse(authObs: Observable<AuthResponseData>){
     authObs.subscribe(
       (resData: AuthResponseData) => {
