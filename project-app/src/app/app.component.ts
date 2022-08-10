@@ -1,26 +1,19 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Recipe} from "./recipes/recipe-list/recipe.model";
+import {AuthService} from "./auth/auth.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
   title = 'project-app';
-  recipesView: boolean = true;
-  shoppingListView: boolean = false;
 
-  selectedRecipe!: Recipe;
+  constructor(private authService: AuthService) {}
 
-  onNavigate(feature: string){
-    if(feature === 'recipes'){
-      this.recipesView=!this.recipesView;
-    } else if(feature === 'shoppingList'){
-      this.shoppingListView=!this.shoppingListView;
-    }
-  }
-  onRecipeSelection(recipe: Recipe){
-    this.selectedRecipe = recipe;
+  ngOnInit(): void {
+    this.authService.autoLogin();
   }
 }

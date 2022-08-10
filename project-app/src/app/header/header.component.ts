@@ -34,6 +34,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.featureSelected.emit(selection);
   }
 
+  onLogout(){
+    this.authService.logout();
+  }
+
   onSave() {
     this.dataStorageService.storeRecipes();
   }
