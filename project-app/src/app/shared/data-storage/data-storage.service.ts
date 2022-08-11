@@ -18,7 +18,6 @@ export class DataStorageService {
   constructor(private http: HttpClient, private recipeService: RecipeService, private authService: AuthService) {
     this.tokenSub = this.authService.user.subscribe(
       user => {
-        console.log('WPROWADZONO TOKEN: ');
         this.token = user.token;
       }
     )
@@ -29,7 +28,6 @@ export class DataStorageService {
     return this.http.put(
       'https://recipebook-2b443-default-rtdb.europe-west1.firebasedatabase.app/recipes.json',
       recipes).subscribe((response) => {
-        console.log(response);
       }
     );
   }
