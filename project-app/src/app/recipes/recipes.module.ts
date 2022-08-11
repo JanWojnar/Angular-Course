@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
 import {RecipesComponent} from "./recipes.component";
 import {RecipeListComponent} from "./recipe-list/recipe-list.component";
 import {RecipeDetailComponent} from "./recipe-detail/recipe-detail.component";
@@ -7,10 +6,8 @@ import {RecipeItemComponent} from "./recipe-list/recipe-item/recipe-item.compone
 import {RecipeStartComponent} from "./recipe-start/recipe-start.component";
 import {RecipeEditComponent} from "./recipe-edit/recipe-edit.component";
 import {RouterModule} from "@angular/router";
-import {BrowserModule} from "@angular/platform-browser";
 import {ReactiveFormsModule} from "@angular/forms";
 import {RecipesRoutingModule} from "./recipes-routing.module";
-
 
 
 @NgModule({
@@ -20,16 +17,12 @@ import {RecipesRoutingModule} from "./recipes-routing.module";
     RecipeDetailComponent,
     RecipeItemComponent,
     RecipeStartComponent,
-    RecipeEditComponent
+    RecipeEditComponent,
   ],
   imports: [
-    CommonModule,
     RouterModule,
     RecipesRoutingModule,
-    //   .forChild(
-    //
-    // ),
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class RecipesModule { }
