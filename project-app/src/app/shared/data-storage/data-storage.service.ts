@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {RecipeService} from "../../recipes/recipe.service";
 import {Recipe} from "../../recipes/recipe-list/recipe.model";
 import {map, tap} from "rxjs/operators";
@@ -18,7 +18,9 @@ export class DataStorageService {
   constructor(private http: HttpClient, private recipeService: RecipeService, private authService: AuthService) {
     this.tokenSub = this.authService.user.subscribe(
       user => {
-        this.token = user.token;
+        if(this.token){
+          this.token = user.token;
+        }
       }
     )
   }
