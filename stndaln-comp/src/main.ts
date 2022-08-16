@@ -7,6 +7,8 @@ if (environment.production) {
   enableProdMode();
 }
 
-bootstrapApplication(AppComponent);
+bootstrapApplication(AppComponent, {
+  providers: []
+});
 
 

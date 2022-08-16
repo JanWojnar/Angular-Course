@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {DetailsComponent} from "./details/details.component";
-// import {DetailsComponent} from "./details/details.component";
 
 @Component({
   standalone: true,
