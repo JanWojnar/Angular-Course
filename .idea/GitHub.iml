@@ -3,10 +3,12 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/angularUdemy/dist" />
-      <excludeFolder url="file://$MODULE_DIR$/angularUdemy/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/01-starting-project/01-starting-project/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/01-starting-project/01-starting-project/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/angular-udemy-app/dist" />
       <excludeFolder url="file://$MODULE_DIR$/angular-udemy-app/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/angularUdemy/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/angularUdemy/tmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
