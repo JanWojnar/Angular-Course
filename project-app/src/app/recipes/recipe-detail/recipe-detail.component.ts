@@ -3,6 +3,10 @@ import {Recipe} from "../recipe-list/recipe.model";
 import {ShoppingListService} from "../../shopping-list/shopping-list.service";
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../recipe.service';
+import {Store} from "@ngrx/store";
+import {Ingredient} from "../../shared/ingredient.model";
+import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
+import {ShoppingListState} from "../../shopping-list/store/shopping-list.reducer";
 
 @Injectable()
 @Component({
@@ -19,7 +23,8 @@ export class RecipeDetailComponent implements OnInit {
     private shoppingListService: ShoppingListService,
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private router: Router) {
+    private router: Router,
+    private store: Store<ShoppingListState>) {
   }
 
   ngOnInit(): void {
@@ -32,7 +37,9 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onMoveClick(){
-    this.shoppingListService.addIngredients(this.recipeDetail.ingredients);
+    // this.shoppingListService.addIngredients(this.recipeDetail.ingredients);
+    console.log('DISPATCHUJE!!!');
+    this.store.dispatch(new ShoppingListActions.AddIngredients(this.recipeDetail.ingredients));
   }
 
   onEdit(){

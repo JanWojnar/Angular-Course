@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import { StoreModule } from '@ngrx/store';
+import {ActionReducerMap, StoreModule } from '@ngrx/store';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -10,7 +10,9 @@ import {SharedModule} from "./shared/shared.module";
 import {CoreModule} from "./core.module";
 import {AuthModule} from "./auth/auth.module";
 import {LoggingService} from "./logging.service";
-import {shoppingListReducer} from "./shopping-list/store/shopping-list.reducer";
+import {reducers} from "./shared/store/app-state";
+import {ShoppingListModule} from "./shopping-list/shopping-list.module";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -18,15 +20,18 @@ import {shoppingListReducer} from "./shopping-list/store/shopping-list.reducer";
     HeaderComponent
   ],
   imports: [
+    StoreModule.forRoot(reducers),
     AuthModule,
     CoreModule,
-    SharedModule,
+    CommonModule,
+    BrowserModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forFeature({shoppingList: shoppingListReducer})
+    SharedModule
   ],
   bootstrap: [AppComponent],
   providers: [LoggingService]
 })
-export class AppModule { }
+export class AppModule {
+}

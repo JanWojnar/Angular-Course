@@ -2,7 +2,7 @@ import {NgModule} from "@angular/core";
 import {ShoppingListComponent} from "./shopping-list.component";
 import {ShoppingEditComponent} from "./shopping-edit/shopping-edit.component";
 import {FormsModule} from "@angular/forms";
-import {ShoppingListRoutingModule} from "./shopping-list-routing.module";
+import {RouterModule} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
@@ -13,7 +13,7 @@ import {SharedModule} from "../shared/shared.module";
   imports:[
     SharedModule,
     FormsModule,
-    ShoppingListRoutingModule
+    RouterModule.forChild([{path: '', component: ShoppingListComponent}])
   ],
   exports:[
     ShoppingListComponent,
@@ -21,5 +21,5 @@ import {SharedModule} from "../shared/shared.module";
   ]
 })
 export class ShoppingListModule {
-
 }
+//
