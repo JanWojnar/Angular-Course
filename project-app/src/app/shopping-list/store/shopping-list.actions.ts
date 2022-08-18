@@ -1,7 +1,7 @@
 import {Action} from "@ngrx/store";
 import {Ingredient} from "../../shared/ingredient.model";
 
-export type Actions = AddIngredient | AddIngredients | UpdateIngredient | DeleteIngredient | StartEditIngredient | StopEditIngredient;
+export type ShoppAct = AddIngredient | AddIngredients | UpdateIngredient | DeleteIngredient | StartEditIngredient | StopEditIngredient;
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export class AddIngredient implements Action {

@@ -2,6 +2,9 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 import {DataStorageService} from "../shared/data-storage/data-storage.service";
 import {AuthService} from "../auth/auth.service";
 import {Subscription} from "rxjs";
+import {Store} from "@ngrx/store";
+import {AppState} from "../shared/store/app-state";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-header',
@@ -16,11 +19,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Output() featureSelected = new EventEmitter<string>();
 
-  constructor(private dataStorageService: DataStorageService, private authService: AuthService) {
+  constructor(private dataStorageService: DataStorageService, private authService: AuthService, private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe((user) => {
+    this.userSub = this.store.select('authorization').pipe(map(state=>{return state.user})).subscribe((user) => {
         this.isAuthenticated = !!user;
       }
     )
