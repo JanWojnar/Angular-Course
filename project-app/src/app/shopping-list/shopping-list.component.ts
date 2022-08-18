@@ -15,51 +15,27 @@ import {ShoppingListState} from "./store/shopping-list.reducer";
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
 
-  // ingredients: Ingredient[] = [];
-  ingredients: Observable<{ingredients: Ingredient[]}>;
-  // subscriptionIngChanged!: Subscription;
-  // subscriptionEdited!: Subscription;
-  subscriptionBtnClicked!: Subscription;
-  selectedId!: number;
+  selectedId: number = -1;
 
   shoppingListState: Observable<ShoppingListState>;
 
-  constructor(private shoppingListService: ShoppingListService, private loggingService: LoggingService,
-              private store: Store<AppState>) {
-    // this.ingredients = shoppingListService.getIngredients();
+  constructor(private loggingService: LoggingService, private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.ingredients = this.store.select('shoppingList')
     this.shoppingListState = this.store.select('shoppingList');
-    // this.ingredients = this.shoppingListService.getIngredients();
-    // this.subscriptionIngChanged = this.shoppingListService.ingredientsChanged
-    //   .subscribe((ingredients: Ingredient[]) => {
-    //     this.ingredients.push(...ingredients);
-    //   });
-    // this.subscriptionEdited = this.shoppingListService.ingredientsEdited
-    //   .subscribe(() => {
-    //     this.ingredients = this.shoppingListService.getIngredients();
-    //   })
-    this.subscriptionBtnClicked = this.shoppingListService.buttonClicked
-      .subscribe(() => {
-        this.selectedId=-1;
-      })
   }
 
   ngOnDestroy(): void {
-    // this.subscriptionIngChanged.unsubscribe();
-    // this.subscriptionEdited.unsubscribe();
+    this.store.dispatch(new ShoppingListActions.StopEditIngredient());
   }
 
   onEditItem(id: number) {
     if(this.selectedId!==id){
       this.selectedId=id;
-      this.shoppingListService.startedEditing.next({i: id, ingredient: this.ingredients[id]});
       this.store.dispatch(new ShoppingListActions.StartEditIngredient(id));
     } else {
       this.selectedId=-1;
-      this.shoppingListService.buttonClicked.next();
       this.store.dispatch(new ShoppingListActions.StopEditIngredient());
     }
   }
