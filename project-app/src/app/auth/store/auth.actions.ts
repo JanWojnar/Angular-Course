@@ -1,9 +1,8 @@
 import {Action} from "@ngrx/store";
-import {AuthResponseData} from "../auth.service";
 import {User} from "../user.model";
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
+export const LOGIN = '[Authorization] LOGIN';
+export const LOGOUT = '[Authorization] LOGOUT';
 
 export type AthActions = Login | Logout;
 
