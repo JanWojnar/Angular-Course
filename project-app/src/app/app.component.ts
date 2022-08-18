@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Recipe} from "./recipes/recipe-list/recipe.model";
 import {AuthService} from "./auth/auth.service";
 import {LoggingService} from "./logging.service";
 

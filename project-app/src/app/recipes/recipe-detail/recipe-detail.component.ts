@@ -1,10 +1,8 @@
 import {Component, Injectable, OnInit} from '@angular/core';
 import {Recipe} from "../recipe-list/recipe.model";
-import {ShoppingListService} from "../../shopping-list/shopping-list.service";
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { RecipeService } from '../recipe.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {RecipeService} from '../recipe.service';
 import {Store} from "@ngrx/store";
-import {Ingredient} from "../../shared/ingredient.model";
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
 import {ShoppingListState} from "../../shopping-list/store/shopping-list.reducer";
 
@@ -20,7 +18,6 @@ export class RecipeDetailComponent implements OnInit {
   id!: number;
 
   constructor(
-    private shoppingListService: ShoppingListService,
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,

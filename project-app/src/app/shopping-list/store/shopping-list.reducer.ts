@@ -26,27 +26,35 @@ export function shoppingListReducer
     case ShoppingListActions.ADD_INGREDIENT:
       return {
         ...state,
-        ingredients: [...state.ingredients, action.payload]
+        ingredients: [...state.ingredients, action.payload],
+        editedIngredientIndex: -1,
+        editedIngredient: null
       };
     case ShoppingListActions.ADD_INGREDIENTS:
       return {
         ...state,
-        ingredients: [...state.ingredients, ...action.payload]
+        ingredients: [...state.ingredients, ...action.payload],
+        editedIngredientIndex: -1,
+        editedIngredient: null
       };
     case ShoppingListActions.UPDATE_INGREDIENT: {
       let modifiedTable = state.ingredients.slice();
-      modifiedTable[action.payload.index]=action.payload.ingredient;
+      modifiedTable[state.editedIngredientIndex]=action.payload;
       return {
         ...state,
-        ingredients: modifiedTable
+        ingredients: modifiedTable,
+        editedIngredientIndex: -1,
+        editedIngredient: null
       }
     }
     case ShoppingListActions.DELETE_INGREDIENT: {
       let modifiedTable = state.ingredients.slice()
-      modifiedTable.splice(action.payload,1);
+      modifiedTable.splice(state.editedIngredientIndex,1);
       return {
         ...state,
-        ingredients: modifiedTable
+        ingredients: modifiedTable,
+        editedIngredientIndex: -1,
+        editedIngredient: null
       }
     }
     case ShoppingListActions.START_EDIT_INGREDIENT : {

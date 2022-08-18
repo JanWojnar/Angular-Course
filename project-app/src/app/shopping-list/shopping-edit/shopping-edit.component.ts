@@ -19,7 +19,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   storeSubscription: Subscription;
   selectedIngredient!: Ingredient;
-  indexOfEditingItem!: number;
 
   constructor(private store: Store<AppState>) {
   }
@@ -30,7 +29,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         console.log()
         this.editMode = true;
         this.selectedIngredient = stateData.editedIngredient;
-        this.indexOfEditingItem = stateData.editedIngredientIndex;
         this.editForm.setValue({
           name: stateData.editedIngredient.name,
           amount: stateData.editedIngredient.amount
@@ -38,7 +36,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       } else {
         this.editMode = false;
         this.selectedIngredient = null;
-        this.indexOfEditingItem = -1;
       }
     })
   }
@@ -57,10 +54,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     if (!this.editMode) {
       this.store.dispatch(new ShoppingListActions.AddIngredient(newIngredient));
     } else {
-      this.store.dispatch(new ShoppingListActions.UpdateIngredient({
-        index: this.indexOfEditingItem,
-        ingredient: newIngredient
-      }));
+      this.store.dispatch(new ShoppingListActions.UpdateIngredient(newIngredient));
       this.editMode = false;
     }
     form.reset();
@@ -74,6 +68,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   onDeleteClick() {
     this.editMode = false;
-    this.store.dispatch(new ShoppingListActions.DeleteIngredient(this.indexOfEditingItem));
+    this.store.dispatch(new ShoppingListActions.DeleteIngredient());
   }
 }

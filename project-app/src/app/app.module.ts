@@ -1,6 +1,6 @@
-import { NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {ActionReducerMap, StoreModule } from '@ngrx/store';
+import {StoreModule} from '@ngrx/store';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -11,7 +11,6 @@ import {CoreModule} from "./core.module";
 import {AuthModule} from "./auth/auth.module";
 import {LoggingService} from "./logging.service";
 import {reducers} from "./shared/store/app-state";
-import {ShoppingListModule} from "./shopping-list/shopping-list.module";
 import {CommonModule} from "@angular/common";
 
 @NgModule({

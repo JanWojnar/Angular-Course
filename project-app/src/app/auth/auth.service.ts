@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, tap} from "rxjs/operators";
-import {throwError, BehaviorSubject} from "rxjs";
+import {BehaviorSubject, throwError} from "rxjs";
 import {User} from "./user.model";
 import {Router} from "@angular/router";
-import { environment} from "../../environments/environment";
+import {environment} from "../../environments/environment";
 
 
 export interface AuthResponseData {
@@ -77,7 +77,6 @@ export class AuthService {
     if (loadedUser.token) {
       const expirationDuration: number = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
-
       this.user.next(loadedUser);
       this.router.navigate(['/recipes'])
     }

@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Injectable, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {Recipe} from "./recipe.model";
 import {RecipeService} from "../recipe.service";
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from "rxjs";
 
 @Injectable()

@@ -1,5 +1,5 @@
 import {shoppingListReducer, ShoppingListState} from "../../shopping-list/store/shopping-list.reducer";
-import { ActionReducerMap } from "@ngrx/store";
+import {ActionReducerMap} from "@ngrx/store";
 
 export const rootReducer = {};
 
