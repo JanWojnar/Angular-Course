@@ -17,6 +17,11 @@ const initialState: AuthState = {
 export function authReducer(state = initialState, action: AthActions): AuthState {
   switch (action.type) {
 
+    case AuthActions.SIGNUP:
+      return {
+        ...state,
+        loading: true
+      }
     case AuthActions.LOGIN:
       return {
         ...state,

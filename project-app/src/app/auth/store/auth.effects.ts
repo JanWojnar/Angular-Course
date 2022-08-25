@@ -34,8 +34,6 @@ export class AuthEffects {
           return new AuthActions.AuthenticateSuccess(loadedUser);
         }),
         catchError(errorRes => {
-          console.log('ERROR LOG: ')
-          console.log(errorRes);
           let errorMessage = 'An unknown error occurred!';
           if(!errorRes.error || !errorRes.error.error){
             console.log('CZEGO TU JESTEM?');
@@ -58,9 +56,57 @@ export class AuthEffects {
     }),
   )
 
+  @Effect()
+  authSignup = this.actions$.pipe(
+    ofType(AuthActions.SIGNUP),
+    switchMap((authData: AuthActions.Signup) => {
+      return this.http.post<AuthResponseData>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+environment.firbaseAPIKey,
+        {
+          email: authData.payload.email,
+          password: authData.payload.password,
+          returnSecureToken: true
+        }
+      ).pipe(
+        map(resData => {
+          const loadedUser = new User(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            new Date(new Date().getTime() + +resData.expiresIn * 1000))
+          return new AuthActions.AuthenticateSuccess(loadedUser);
+        }),
+        catchError(errorRes => {
+          let errorMessage = 'An unknown error occurred!';
+          if(!errorRes.error || !errorRes.error.error){
+            console.log('CZEGO TU JESTEM?');
+            return of(new AuthActions.AuthenticateFail(errorMessage));
+          }
+          switch (errorRes.error.error.message) {
+            case 'EMAIL_EXISTS':
+              errorMessage = 'This email exists already';
+              break;
+            case 'EMAIL_NOT_FOUND':
+              errorMessage = 'This email does not exist';
+              break;
+            case 'INVALID_PASSWORD':
+              errorMessage = 'This password is not correct'
+              break;
+          }
+          return of(new AuthActions.AuthenticateFail(errorMessage));
+        })
+      )
+    })
+  )
+
+
+
   @Effect({dispatch:false})
-  authSuccess = this.actions$.pipe(ofType(AuthActions.AUTHENTICATE_SUCCESS), tap(() => {
-    this.router.navigate(['/'])
-  }))
+  authRedirect = this.actions$.pipe(
+    ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
+    tap(() => {
+      this.router.navigate(['/recipes'])
+    })
+  )
 
 }

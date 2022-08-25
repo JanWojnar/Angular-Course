@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../shared/store/app-state";
 import {map} from "rxjs/operators";
+import * as AuthActions from "../auth/store/auth.actions";
 
 @Component({
   selector: 'app-header',
@@ -38,7 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout(){
-    this.authService.logout();
+    this.store.dispatch(new AuthActions.Logout());
   }
 
   onSave() {
