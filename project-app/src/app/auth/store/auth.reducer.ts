@@ -3,30 +3,54 @@ import {AthActions} from "./auth.actions";
 import * as AuthActions from "../store/auth.actions"
 
 export interface AuthState {
-  user: User
+  user: User;
+  authError: string;
+  loading: boolean;
 }
 
-const initialState = {
-  user: null
+const initialState: AuthState = {
+  user: null,
+  authError: null,
+  loading: false
 }
 
-export function authReducer(state = initialState, action: AthActions) : AuthState {
+export function authReducer(state = initialState, action: AthActions): AuthState {
   switch (action.type) {
-    case AuthActions.LOGIN :
+
+    case AuthActions.LOGIN:
       return {
         ...state,
-        user: action.payload
-    }
-    case AuthActions.LOGOUT:{
-      return {
-        ...state,
-        user: null
+        authError: null,
+        loading: true
       }
-    }
-    default: {
+    case AuthActions.AUTHENTICATE_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        authError: null,
+        loading: false
+      }
+    case AuthActions.AUTHENTICATE_FAIL:
+      return {
+        ...state,
+        user: null,
+        authError: action.payload,
+        loading: false
+      }
+    case AuthActions.LOGOUT:
+      return {
+        ...state,
+        user: null,
+        authError: null
+      }
+    case AuthActions.ACKNOWLEDGE:
+      return {
+        ...state,
+        authError: null
+      }
+    default:
       return {
         ...state
       };
-    }
   }
 }

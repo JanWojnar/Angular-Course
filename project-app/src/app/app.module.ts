@@ -11,7 +11,8 @@ import {CoreModule} from "./core.module";
 import {AuthModule} from "./auth/auth.module";
 import {LoggingService} from "./logging.service";
 import {reducers} from "./shared/store/app-state";
-import {CommonModule} from "@angular/common";
+import {EffectsModule} from "@ngrx/effects"
+import {AuthEffects} from "./auth/store/auth.effects";
 
 @NgModule({
   declarations: [
@@ -22,12 +23,12 @@ import {CommonModule} from "@angular/common";
     StoreModule.forRoot(reducers),
     AuthModule,
     CoreModule,
-    CommonModule,
     BrowserModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    EffectsModule.forRoot([AuthEffects])
   ],
   bootstrap: [AppComponent],
   providers: [LoggingService]

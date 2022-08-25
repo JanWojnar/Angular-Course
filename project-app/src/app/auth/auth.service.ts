@@ -82,7 +82,7 @@ export class AuthService {
       const expirationDuration: number = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
       // this.user.next(loadedUser);
-      this.store.dispatch(new AuthActions.Login(loadedUser));
+      this.store.dispatch(new AuthActions.AuthenticateSuccess(loadedUser));
       this.router.navigate(['/recipes'])
     }
   }
@@ -106,7 +106,7 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
     const user = new User(response.email, response.localId, response.idToken, expirationDate);
     this.autoLogout(+response.expiresIn * 1000)
-    this.store.dispatch(new AuthActions.Login(user));
+    this.store.dispatch(new AuthActions.AuthenticateSuccess(user));
     localStorage.setItem('userData', JSON.stringify(user));
   }
 

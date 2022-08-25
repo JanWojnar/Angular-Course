@@ -4,7 +4,10 @@ import {AuthResponseData, AuthService} from "./auth.service";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {PlaceholderDirective} from "../shared/placeholder/placeholder.directive";
-
+import {AppState} from "../shared/store/app-state";
+import {Store} from "@ngrx/store";
+import * as AuthActions from "../auth/store/auth.actions"
+import {AlertComponent} from "../shared/alert/alert.component";
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -20,7 +23,10 @@ export class AuthComponent implements OnInit {
   // constructor(private authService: AuthService, private router: Router, private componentFactoryResolver: ComponentFactoryResolver) {
   // }
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store<AppState>) {
   }
 
   onSwitchMode() {
@@ -38,11 +44,12 @@ export class AuthComponent implements OnInit {
 
     this.isLoading = true;
     if (this.isLoginMode) {
-      authObs = this.onLogin(email, password);
+      console.log('Wpisano email:' + email + ' Wpisano hasło: ' + password)
+      this.store.dispatch(new AuthActions.Login({email: email, password: password}));
     } else {
       authObs = this.onSignUp(email, password);
     }
-    this.manageResponse(authObs);
+    // this.manageResponse(authObs);
     form.reset();
   }
 
@@ -50,43 +57,53 @@ export class AuthComponent implements OnInit {
     return this.authService.signup(email, password);
   }
 
-  onLogin(email: string, password: string) {
-    return this.authService.login(email, password);
-  }
+  // onLogin(email: string, password: string) {
+  //   return this.authService.login(email, password);
+  // }
+
+  // showErrorAlert(message: string){
+  //   // const alertCmp = new AlertComponent();
+  //   const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(
+  //     AlertComponent
+  //   );
+  //   const hostViewContainerRef = this.alertHost.viewContainerRef;
+  //   hostViewContainerRef.clear();
+  //
+  //   const componentRef = hostViewContainerRef.createComponent(alertCmpFactory);
+  //
+  //   componentRef.instance.message = message;
+  //   this.closeSub = componentRef.instance.close.subscribe(() => {
+  //     this.closeSub.unsubscribe();
+  //     hostViewContainerRef.clear();
+  //   });
+  // }
 
   onHandleError(){
-    this.error = '';
+    this.store.dispatch(new AuthActions.Acknowledge());
   }
 
   manageResponse(authObs: Observable<AuthResponseData>){
-    authObs.subscribe(
-      (resData: AuthResponseData) => {
-        console.log(resData)
-        this.isLoading = false;
-        this.router.navigate(['/recipes']);
-      },
-      (errMessage: string) => {
-        this.error = errMessage;
-        // this.showErrorAlert();
-        this.isLoading = false;
-      }
-    )
-  }
+    authObs.subscribe( (resData: AuthResponseData) => {
+      this.isLoading = false;
+      this.router.navigate(['/recipes']);
+    })
+    // authObs.subscribe(
+    //   (resData: AuthResponseData) => {
 
-  // showErrorAlert(message: string){
-  //   const alertComponentFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
-  //   const hostViewContainerRef = this.alertHost.viewContainerRef;
-  //   hostViewContainerRef.clear();
-  //   const componentRef = hostViewContainerRef.createComponent(alertComponentFactory);
-  //idz do app module, dodaj entryComponent
-  //   componentRef.instance.message=message;
-  //   this.closeSub = componentRef.instance.close.subscribe(()=> {
-  //    this.closeSub.unsubscribe();
-  //    hostViewContainerRef.clear();
-  //   })
-  // }
+    //   },
+    //   (errMessage: string) => {
+    //     this.error = errMessage;
+    //     // this.showErrorAlert();
+    //     this.isLoading = false;
+    //   }
+    // )
+  }
 
 
   ngOnInit(): void {
+    this.store.select('authorization').subscribe(authState => {
+      this.isLoading = authState.loading;
+      this.error = authState.authError;
+    })
   }
 }
