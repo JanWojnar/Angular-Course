@@ -26,12 +26,7 @@ export class AuthEffects {
         }
       ).pipe(
         map(resData => {
-          const loadedUser = new User(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            new Date(new Date().getTime() + +resData.expiresIn * 1000))
-          return new AuthActions.AuthenticateSuccess(loadedUser);
+          return this.handleAuthentication(resData);
         }),
         catchError(errorRes => {
           let errorMessage = 'An unknown error occurred!';
@@ -57,6 +52,30 @@ export class AuthEffects {
   )
 
   @Effect()
+  autoLogin = this.actions$.pipe(
+    ofType(AuthActions.AUTOLOGIN),
+    map(()=> {
+
+      const userData: {
+        email: string,
+        id: string,
+        _token: string,
+        _tokenExpirationDate: string
+      } = JSON.parse(<string>localStorage.getItem('userData'));
+
+      if (!userData) {
+        return new AuthActions.Logout();
+      } else {
+        const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
+        if (loadedUser.token) {
+          return new AuthActions.AuthenticateSuccess(loadedUser);
+        }
+        return new AuthActions.Logout();
+      }
+    })
+  )
+
+  @Effect()
   authSignup = this.actions$.pipe(
     ofType(AuthActions.SIGNUP),
     switchMap((authData: AuthActions.Signup) => {
@@ -69,17 +88,11 @@ export class AuthEffects {
         }
       ).pipe(
         map(resData => {
-          const loadedUser = new User(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            new Date(new Date().getTime() + +resData.expiresIn * 1000))
-          return new AuthActions.AuthenticateSuccess(loadedUser);
+          return this.handleAuthentication(resData);
         }),
         catchError(errorRes => {
           let errorMessage = 'An unknown error occurred!';
           if(!errorRes.error || !errorRes.error.error){
-            console.log('CZEGO TU JESTEM?');
             return of(new AuthActions.AuthenticateFail(errorMessage));
           }
           switch (errorRes.error.error.message) {
@@ -99,14 +112,34 @@ export class AuthEffects {
     })
   )
 
+  @Effect({dispatch: false})
+  authLogout = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT),
+    tap(()=> {
+      localStorage.removeItem('userData');
 
+    })
+  )
 
   @Effect({dispatch:false})
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
-    tap(() => {
-      this.router.navigate(['/recipes'])
+    tap((action: AuthActions.AuthenticateSuccess | AuthActions.Logout) => {
+      if(action.type === AuthActions.AUTHENTICATE_SUCCESS){
+        this.router.navigate(['/recipes']);
+      } else if (action.type === AuthActions.LOGOUT){
+        this.router.navigate(['/authentication']);
+      }
     })
   )
 
+  private handleAuthentication(resData: AuthResponseData){
+    const loadedUser = new User(
+      resData.email,
+      resData.localId,
+      resData.idToken,
+      new Date(new Date().getTime() + +resData.expiresIn * 1000))
+    localStorage.setItem('userData', JSON.stringify(loadedUser));
+    return new AuthActions.AuthenticateSuccess(loadedUser);
+  }
 }

@@ -5,13 +5,11 @@ export const LOGIN = '[Authorization] LOGIN';
 export const AUTHENTICATE_SUCCESS = '[Authorization] LOGIN_START';
 export const AUTHENTICATE_FAIL = '[Authorization] LOGIN_FAIL';
 export const LOGOUT = '[Authorization] LOGOUT';
-
+export const AUTOLOGIN = '[Authorization] AUTOLOGIN';
 export const SIGNUP = '[Authorization] SIGNUP';
-export const SIGNUP_START = '[Authorization] SIGNUP_START'
-
 export const ACKNOWLEDGE = '[Authorization] ACKNOWLEDGE';
 
-export type AthActions = AuthenticateSuccess | Logout | AuthenticateFail | Login | Signup | Acknowledge;
+export type AthActions = AuthenticateSuccess | Logout | AuthenticateFail | Login | AutoLogin | Signup | Acknowledge;
 
 export class AuthenticateSuccess implements Action {
   readonly type = AUTHENTICATE_SUCCESS;
@@ -30,6 +28,10 @@ export class Logout implements Action {
 export class Login {
   readonly type = LOGIN;
   constructor(public payload: {email: string, password: string}) {}
+}
+
+export class AutoLogin {
+  readonly type = AUTOLOGIN;
 }
 
 export class Signup implements Action {

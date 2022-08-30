@@ -28,6 +28,10 @@ export function authReducer(state = initialState, action: AthActions): AuthState
         authError: null,
         loading: true
       }
+    case AuthActions.AUTOLOGIN:
+      return {
+        ...state
+      }
     case AuthActions.AUTHENTICATE_SUCCESS:
       return {
         ...state,
