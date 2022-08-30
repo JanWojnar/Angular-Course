@@ -2,7 +2,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects'
 import * as AuthActions from '../store/auth.actions'
 import {catchError, map, switchMap, tap} from "rxjs/operators";
 import {environment} from "../../../environments/environment";
-import {AuthResponseData} from "../auth.service";
+import {AuthResponseData, AuthService} from "../auth.service";
 import {HttpClient} from "@angular/common/http";
 import {of} from "rxjs";
 import {User} from "../user.model";
@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions, private http: HttpClient, private router: Router) {}
+  constructor(private actions$: Actions, private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   @Effect()
   authLogin = this.actions$.pipe(
@@ -117,19 +117,15 @@ export class AuthEffects {
     ofType(AuthActions.LOGOUT),
     tap(()=> {
       localStorage.removeItem('userData');
-
+      this.router.navigate(['/auth']);
     })
   )
 
   @Effect({dispatch:false})
   authRedirect = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
-    tap((action: AuthActions.AuthenticateSuccess | AuthActions.Logout) => {
-      if(action.type === AuthActions.AUTHENTICATE_SUCCESS){
+    ofType(AuthActions.AUTHENTICATE_SUCCESS),
+    tap(() => {
         this.router.navigate(['/recipes']);
-      } else if (action.type === AuthActions.LOGOUT){
-        this.router.navigate(['/authentication']);
-      }
     })
   )
 
@@ -140,6 +136,7 @@ export class AuthEffects {
       resData.idToken,
       new Date(new Date().getTime() + +resData.expiresIn * 1000))
     localStorage.setItem('userData', JSON.stringify(loadedUser));
+    this.authService.setLogoutTimer(+resData.expiresIn * 1000);
     return new AuthActions.AuthenticateSuccess(loadedUser);
   }
 }
