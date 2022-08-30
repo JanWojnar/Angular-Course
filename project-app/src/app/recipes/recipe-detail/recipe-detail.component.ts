@@ -1,10 +1,13 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {Recipe} from "../recipe-list/recipe.model";
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {RecipeService} from '../recipe.service';
 import {Store} from "@ngrx/store";
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
-import {ShoppingListState} from "../../shopping-list/store/shopping-list.reducer";
+import * as RecipeActions from "../store/recipe.actions"
+import {AppState} from "../../shared/store/app-state";
+import {map, switchMap} from "rxjs/operators";
+import {Subscription} from "rxjs";
 
 @Injectable()
 @Component({
@@ -12,30 +15,43 @@ import {ShoppingListState} from "../../shopping-list/store/shopping-list.reducer
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.css']
 })
-export class RecipeDetailComponent implements OnInit {
+export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   recipeDetail!: Recipe;
   id!: number;
+  detailRecipeSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,
-    private store: Store<ShoppingListState>) {
+    private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.id= +params['id'];
-        this.recipeDetail = this.recipeService.getRecipeById(this.id);
-      }
-    );
+    this.detailRecipeSub = this.route.params.pipe(
+      map(params => {
+        return +params['id']
+      }),
+      switchMap(id => {
+        this.id=id;
+        return this.store.select('recipes');
+      }),
+      map(recipeState => {
+        return recipeState.recipes.find((recipe, index) => {
+          return index===this.id;
+        })
+      })
+    ).subscribe( recipe => {
+      this.recipeDetail=recipe;
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.detailRecipeSub.unsubscribe();
   }
 
   onMoveClick(){
-    // this.shoppingListService.addIngredients(this.recipeDetail.ingredients);
-    console.log('DISPATCHUJE!!!');
     this.store.dispatch(new ShoppingListActions.AddIngredients(this.recipeDetail.ingredients));
   }
 
@@ -44,7 +60,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onDelete() {
-    this.recipeService.deleteRecipe(this.id);
+    this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
     this.router.navigate(['recipes'])
   }
 }

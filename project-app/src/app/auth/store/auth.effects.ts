@@ -68,7 +68,7 @@ export class AuthEffects {
       } else {
         const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
         if (loadedUser.token) {
-          return new AuthActions.AuthenticateSuccess(loadedUser);
+          return new AuthActions.AuthenticateSuccess({user: loadedUser, redirect: false});
         }
         return new AuthActions.Logout();
       }
@@ -124,8 +124,10 @@ export class AuthEffects {
   @Effect({dispatch:false})
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATE_SUCCESS),
-    tap(() => {
-        this.router.navigate(['/recipes']);
+    tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
+        if(authSuccessAction.payload.redirect){
+          this.router.navigate(['/recipes']);
+        }
     })
   )
 
@@ -137,6 +139,6 @@ export class AuthEffects {
       new Date(new Date().getTime() + +resData.expiresIn * 1000))
     localStorage.setItem('userData', JSON.stringify(loadedUser));
     this.authService.setLogoutTimer(+resData.expiresIn * 1000);
-    return new AuthActions.AuthenticateSuccess(loadedUser);
+    return new AuthActions.AuthenticateSuccess({user: loadedUser, redirect:true});
   }
 }

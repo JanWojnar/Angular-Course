@@ -35,7 +35,7 @@ export function authReducer(state = initialState, action: AthActions): AuthState
     case AuthActions.AUTHENTICATE_SUCCESS:
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.user,
         authError: null,
         loading: false
       }

@@ -3,6 +3,9 @@ import {Recipe} from "./recipe.model";
 import {RecipeService} from "../recipe.service";
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from "rxjs";
+import {AppState} from "../../shared/store/app-state";
+import {Store} from "@ngrx/store";
+import {RecipeState} from "../store/recipe.reducer";
 
 @Injectable()
 @Component({
@@ -18,14 +21,14 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   constructor(
     private recipeService: RecipeService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.recipes=this.recipeService.getRecipes();
-    this.recipesChangedSub=this.recipeService.recipesChanged
-      .subscribe((recipes: Recipe[]) => {
-      this.recipes=recipes;
+    this.recipesChangedSub=this.store.select('recipes')
+      .subscribe((state: RecipeState) => {
+      this.recipes=state.recipes;
     });
   }
 
@@ -34,7 +37,6 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   onNewRecipe(){
-    console.log("Clicked!")
     this.router.navigate(['new'], {relativeTo: this.route})
   }
 }

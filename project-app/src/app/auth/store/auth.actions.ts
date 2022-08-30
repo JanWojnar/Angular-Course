@@ -13,7 +13,7 @@ export type AthActions = AuthenticateSuccess | Logout | AuthenticateFail | Login
 
 export class AuthenticateSuccess implements Action {
   readonly type = AUTHENTICATE_SUCCESS;
-  constructor(public payload : User) {}
+  constructor(public payload : {user: User, redirect: boolean}) {}
 }
 
 export class AuthenticateFail {

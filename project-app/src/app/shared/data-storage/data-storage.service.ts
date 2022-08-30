@@ -7,6 +7,7 @@ import {AuthService} from "../../auth/auth.service";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../store/app-state";
+import * as RecipeActions from "../../recipes/store/recipe.actions";
 
 
 @Injectable({
@@ -25,15 +26,6 @@ export class DataStorageService {
         }
       }
     )
-  }
-
-  storeRecipes() {
-    const recipes = this.recipeService.getRecipes();
-    return this.http.put(
-      'https://recipebook-2b443-default-rtdb.europe-west1.firebasedatabase.app/recipes.json',
-      recipes).subscribe((response) => {
-      }
-    );
   }
 
   fetchRecipes() {
@@ -65,7 +57,8 @@ export class DataStorageService {
         });
       }),
       tap(recipes => {
-        this.recipeService.setRecipes(recipes);
+        // this.recipeService.setRecipes(recipes);
+        this.store.dispatch(new RecipeActions.SetRecipes(recipes));
       })
     )
   }

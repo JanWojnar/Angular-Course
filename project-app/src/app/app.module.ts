@@ -13,6 +13,7 @@ import {LoggingService} from "./logging.service";
 import {reducers} from "./shared/store/app-state";
 import {EffectsModule} from "@ngrx/effects"
 import {AuthEffects} from "./auth/store/auth.effects";
+import {RecipeEffects} from "./recipes/store/recipe.effects";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import {AuthEffects} from "./auth/store/auth.effects";
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    EffectsModule.forRoot([AuthEffects])
+    EffectsModule.forRoot([AuthEffects,RecipeEffects])
   ],
   bootstrap: [AppComponent],
   providers: [LoggingService]
