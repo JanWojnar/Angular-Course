@@ -1,1 +1,1 @@
-My private hints, courses, projects!
+My angular udemy course
